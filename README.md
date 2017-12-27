@@ -1,17 +1,22 @@
-#cl-fswatch
+# cl-fswatch
+
 `cl-fswatch` is CFFI wrap of [fswatch](https://github.com/emcrisostomo/fswatch), a cross-platform file change monitor.
 
-##License
+## License
+
 Copyright (c) 2016 Muyinliu Xing Released under the ISC License.
 
-##Dependencies
+## Dependencies
+
 All available vis Quicklisp:
+
 * cffi
 * bordeaux-threads
 
 
-##build DLL
-###Mac OS/Linux
+## build DLL
+### Mac OS/Linux
+
 ```shell
 wget --no-check-certificate https://github.com/emcrisostomo/fswatch/releases/download/1.9.2/fswatch-1.9.2.tar.gz
 tar xzf fswatch-1.9.2.tar.gz
@@ -19,12 +24,15 @@ cd fswatch-1.9.2
 ./configure
 make && make install
 ```
+
 Note: current stable release is **fswatch v1.9.2**
 
-###Windows
+### Windows
+
 TODO Don't know how to build DLL for fswatch on Windows yet. Welcome to reply.
 
-##Installation
+## Installation
+
 In shell:
 ```shell
 git clone https://github.com/muyinliu/cl-fswatch.git
@@ -32,12 +40,15 @@ cp -r cl-taobao ~/quicklisp/local-projects/
 ```
 
 In Common Lisp:
+
 ```lisp
 (ql:quickload 'cl-fswatch)
 ```
+
 Note: package `cl-fswatch` has nicknames: `fswatch` `fsw`
 
-##Usage
+## Usage
+
 ```lisp
 (defvar *session* (fsw:init-session))
 
@@ -59,12 +70,14 @@ Note: package `cl-fswatch` has nicknames: `fswatch` `fsw`
 (fsw:start-monitor *session*) ;; will create a thread here
 ```
 
-##Known issue
-###Unable to load foreign library
+## Known issue
+
+### Unable to load foreign library
+
 ```lisp
 (cffi:use-foreign-library %libfswatch)
 ```
-and get:
+=>
 ```=>
 debugger invoked on a CFFI:LOAD-FOREIGN-LIBRARY-ERROR in thread
 #<THREAD "main thread" RUNNING {1002A9C6E3}>:
@@ -74,13 +87,15 @@ debugger invoked on a CFFI:LOAD-FOREIGN-LIBRARY-ERROR in thread
 ```
 
 1. Make sure the DLL file(`libfswatch.so` on Linux, `libfswatch.dylib` on Mac OS X, `libfswatch.dll` on Windows) built success
-2. Make sure CFFI can find the DDL file(copy/symlink DLL to `/usr/lib/` on Mac/Linux, copy DDL to `C:/Windows/System32` on Windows)
+2. Make sure CFFI can find the DLL file(copy/symlink DLL to `/usr/lib/` on Mac/Linux, copy DLL to `C:/Windows/System32` on Windows)
 
-###Can NOT destroy fswatch-session
+### Can NOT destroy fswatch-session
+
 Looks like C function `fsw_destroy_session` from libfswatch didn't work...
 
 
-##fswatch C function Compatibility
+## fswatch C function Compatibility
+
 |           C API           | require |
 |---------------------------|---------|
 | fsw_init_library          | 1.4.4+  |
@@ -100,5 +115,6 @@ Looks like C function `fsw_destroy_session` from libfswatch didn't work...
 | fsw_last_error            | 1.4.4+  |
 | fsw_is_verbose            | 1.4.4+  |
 | fsw_set_verbose           | 1.6.0+  |
+
 Note: minimal required fswatch v1.4.4
 Note: `fsw_add_property` requires fswatch v1.6.0+
