@@ -182,7 +182,7 @@
     (setf (cffi:foreign-slot-value pointer '(:struct %fsw-cmonitor-filter) 'case_sensitive)
           (cffi:convert-to-foreign case-sensitive-p :boolean))
     (setf (cffi:foreign-slot-value pointer '(:struct %fsw-cmonitor-filter) 'extended)
-          (cffi:convert-to-foreign extended-p))
+          (cffi:convert-to-foreign extended-p :boolean))
     (with-fsw-error-code-handler
         (%fsw-add-filter (handle session) pointer))))
 
